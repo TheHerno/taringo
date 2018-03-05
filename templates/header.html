@@ -21,12 +21,21 @@
                 <li>
                     <a href="/mi">Mi</a>
                 </li>
+                {{if .Loged}}
+                <li>
+                    <a href="/perfil/{{.Username}}">{{.Username}}</a>
+                </li>
+                <li>
+                    <a href="/logout">Cerrar Sesión</a>
+                </li>
+                {{else}}
                 <li>
                     <a href="/registro">Registrarse</a>
                 </li>
                 <li>
                     <a href="/login">Iniciar Sesión</a>
                 </li>
+                {{end}}
             </ul>
         </div>
     </nav>

@@ -57,7 +57,7 @@ func UserLogin(w http.ResponseWriter, r *http.Request){
 		id_user , err := models.Login(username,password)
 		if err == nil{
 			fmt.Println("usuario logueado: "+strconv.Itoa(id_user))
-			setSession(username,w)
+			setSession(id_user,username,w)
 			res.Status = "success"
 			res.Content = "Logueado con éxito"
 		}else{
@@ -86,7 +86,14 @@ func StaticLogin(w http.ResponseWriter, r *http.Request){
 }
 
 func Index(w http.ResponseWriter, r *http.Request){
-	dat := models.PageData{Title:"Inicio - TarinGO"}
+	dat := models.PageData{
+		Title:		"Inicio - TarinGO",
+		Username:	getUserName(r),
+	}
+	if dat.Username != "" {
+		dat.Loged = true
+	}
+
 	header.Execute(w,dat)
 	index.Execute(w,nil)
 	footer.Execute(w,nil)
@@ -100,9 +107,10 @@ func Robots(w http.ResponseWriter, req *http.Request) {
 	`)
 }
 
-func setSession(userName string, response http.ResponseWriter) {
+func setSession(id_user int,userName string, response http.ResponseWriter) {
 	value := map[string]string{
-		"name": userName,
+		"username": userName,
+		"user_id": strconv.Itoa(id_user),
 	}
 	if encoded, err := cookieHandler.Encode("session", value); err == nil {
 		cookie := &http.Cookie{
@@ -125,3 +133,13 @@ func clearSession(response http.ResponseWriter) {
 }
 
 var cookieHandler = securecookie.New(securecookie.GenerateRandomKey(64), securecookie.GenerateRandomKey(32))
+
+func getUserName(request *http.Request) (userName string) {
+	if cookie, err := request.Cookie("session"); err == nil {
+		cookieValue := make(map[string]string)
+		if err = cookieHandler.Decode("session", cookie.Value, &cookieValue); err == nil {
+			userName = cookieValue["username"]
+		}
+	}
+	return userName
+}
