@@ -1,0 +1,14 @@
+body {
+    background: #fff;
+}
+
+#header {
+    z-index: 30;
+}
+
+.principal {
+    background-color: f1f1f1;
+    border: 1px solid #ccc;
+    border-top: none;
+    min-height: 400px;
+}
