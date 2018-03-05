@@ -72,14 +72,32 @@ func UserLogin(w http.ResponseWriter, r *http.Request){
 }
 
 func StaticReg(w http.ResponseWriter, r *http.Request){
-	dat := models.PageData{Title:"Registrate - TarinGO"}
+	dat := models.PageData{
+		Title:		"Inicio - TarinGO",
+		Username:	getUserName(r),
+	}
+	if dat.Username != "" {
+		dat.Loged = true
+	}
+	if dat.Loged {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 	header.Execute(w,dat)
 	registro.Execute(w,nil)
 	footer.Execute(w,nil)
 }
 
 func StaticLogin(w http.ResponseWriter, r *http.Request){
-	dat := models.PageData{Title:"Inicia Sesión - TarinGO"}
+	dat := models.PageData{
+		Title:		"Inicio - TarinGO",
+		Username:	getUserName(r),
+	}
+	if dat.Username != "" {
+		dat.Loged = true
+	}
+	if dat.Loged {
+		http.Redirect(w, r, "/", http.StatusSeeOther)
+	}
 	header.Execute(w,dat)
 	login.Execute(w,nil)
 	footer.Execute(w,nil)
