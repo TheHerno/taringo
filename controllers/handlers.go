@@ -104,16 +104,20 @@ func StaticLogin(w http.ResponseWriter, r *http.Request){
 }
 
 func Index(w http.ResponseWriter, r *http.Request){
-	dat := models.PageData{
-		Title:		"Inicio - TarinGO",
-		Username:	getUserName(r),
-	}
+	dat := models.IndexData{}
+	dat.Title=		"Inicio - TarinGO"
+	dat.Username=	getUserName(r)
+	dat.Loged=		false
 	if dat.Username != "" {
 		dat.Loged = true
 	}
-
+	posts , err := getPostsList(0)
+	if err != nil {
+		fmt.Println(err)
+	}
+	dat.Posts = posts
 	header.Execute(w,dat)
-	index.Execute(w,nil)
+	index.Execute(w,dat)
 	footer.Execute(w,nil)
 }
 

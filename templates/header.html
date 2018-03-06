@@ -13,7 +13,7 @@
 <body>
     <nav id="header">
         <div class="nav-wrapper blue">
-            <a href="#" class="brand-logo center">TarinGO</a>
+            <a href="/" class="brand-logo center">TarinGO</a>
             <ul id="nav-mobile" class="left hide-on-med-and-down">
                 <li>
                     <a href="/">Inicio</a>
@@ -24,6 +24,9 @@
                 {{if .Loged}}
                 <li>
                     <a href="/perfil/{{.Username}}">{{.Username}}</a>
+                </li>
+                <li>
+                    <a href="/crearPost">Nuevo Post</a>
                 </li>
                 <li>
                     <a href="/logout">Cerrar Sesión</a>
